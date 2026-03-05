@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "name": "喵喵看书",
+    "author": "meowmereo",
+    "version": 1,
+    "source": "https://www.miaomiaoks.com",
+    "regexp": "miaomiaoks\\.com",
+    "description": "喵喵看书 - 免费小说在线阅读",
+    "locale": "zh_CN",
+    "tag": "nsfw",
+	"language": "javascript",
+    "type": "chinese_novel"
+  },
+  "script": {
+    "detail": "detail.js",
+    "toc": "toc.js",
+    "chap": "chap.js",
+    "search": "search.js"
+  }
+}
