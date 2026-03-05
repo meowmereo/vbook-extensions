@@ -1,42 +1,52 @@
 load('config.js');
 
 function execute(url) {
-  var doc = fetch(url).html();
+    let response = fetch(url);
+    if (response.ok) {
+        let doc = response.html();
 
-  var name = doc.select("h1.text-2xl").text();
+        let name = doc.select("h1.text-2xl").text();
+        let cover = doc.select("section img").first().attr("src");
+        let author = doc.select("p.text-sm.text-gray-500 a[href*='/author/']").first().text();
+        let description = doc.select("#desc").html();
 
-  // Fix: dùng img trực tiếp gần h1, không dùng section.flex
-  var cover = doc.select("section img").first().attr("src");
+        if (cover && cover.indexOf("http") < 0) {
+            cover = BASE_URL + cover;
+        }
 
-  // Fix: author
-  var author = doc.select("p.text-sm.text-gray-500 a[href*='/author/']").first().text();
+        let statusText = "";
+        let paras = doc.select("p.text-xs.text-gray-500");
+        for (let i = 0; i < paras.size(); i++) {
+            let t = paras.get(i).text();
+            if (t.indexOf("状态") >= 0) { statusText = t; break; }
+        }
+        let ongoing = statusText.indexOf("连载") >= 0;
 
-  var description = doc.select("#desc").html();
+        let genres = [];
+        doc.select("a[href*='/tag/']").forEach(e => {
+            genres.push({
+                title: e.text(),
+                input: BASE_URL + e.attr('href'),
+                script: 'gen.js'
+            });
+        });
 
-  var statusText = "";
-  var paras = doc.select("p.text-xs.text-gray-500");
-  for (var i = 0; i < paras.size(); i++) {
-    var t = paras.get(i).text();
-    if (t.indexOf("状态") >= 0) {
-      statusText = t;
-      break;
+        return Response.success({
+            name: name,
+            cover: cover,
+            author: author,
+            description: description,
+            host: BASE_URL,
+            ongoing: ongoing,
+            genres: genres,
+            suggests: [
+                {
+                    title: "相关小说",
+                    input: doc.select("section:has(h2)").last().html(),
+                    script: "similar.js"
+                }
+            ]
+        });
     }
-  }
-  var ongoing = statusText.indexOf("连载") >= 0;
-
-  if (cover && cover.indexOf("http") < 0) {
-    cover = "https://www.miaomiaoks.com" + cover;
-  }
-
-  // Tránh null nếu không lấy được gì
-  if (!name) return null;
-
-  return Response.success({
-    name: name,
-    cover: cover,
-    host: "https://www.miaomiaoks.com",
-    author: author,
-    description: description,
-    ongoing: ongoing
-  });
+    return null;
 }

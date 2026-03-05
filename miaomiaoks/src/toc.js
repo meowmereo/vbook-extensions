@@ -1,19 +1,20 @@
-// toc.js
-// url: https://www.miaomiaoks.com/read/{id}/
+load('config.js');
+
 function execute(url) {
-  var doc = fetch(url).html();
-
-  var links = doc.select("section a[href*='/content/']");
-  var list = [];
-
-  for (var i = 0; i < links.size(); i++) {
-    var el = links.get(i);
-    list.push({
-      name: el.text(),
-      url: el.attr("href"),
-      host: "https://www.miaomiaoks.com"
-    });
-  }
-
-  return Response.success(list);
+    let response = fetch(url);
+    if (response.ok) {
+        let doc = response.html();
+        let links = doc.select("section a[href*='/content/']");
+        let data = [];
+        for (let i = 0; i < links.size(); i++) {
+            let e = links.get(i);
+            data.push({
+                name: e.text(),
+                url: e.attr("href"),
+                host: BASE_URL
+            });
+        }
+        return Response.success(data);
+    }
+    return null;
 }
