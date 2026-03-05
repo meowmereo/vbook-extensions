@@ -1,15 +1,20 @@
 // detail.js
-// url: https://www.miaomiaoks.com/read/{id}/
 function execute(url) {
   var doc = fetch(url).html();
 
   var name = doc.select("h1.text-2xl").text();
-  var cover = doc.select("section.flex img").attr("src");
-  var author = doc.select("p.text-sm a[href*='/author/']").text();
+  
+  // Fix cover selector
+  var cover = doc.select("section.flex.items-start img").attr("src");
+  
+  // Fix author selector  
+  var author = doc.select("p.text-sm.text-gray-500 a[href*='/author/']").first().text();
+  
   var description = doc.select("#desc").html();
 
+  // Fix ongoing selector
   var statusText = "";
-  var paras = doc.select("section.flex p.text-xs");
+  var paras = doc.select("p.text-xs.text-gray-500");
   for (var i = 0; i < paras.size(); i++) {
     var t = paras.get(i).text();
     if (t.indexOf("状态") >= 0) {
