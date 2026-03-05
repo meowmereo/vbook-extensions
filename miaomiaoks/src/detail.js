@@ -31,6 +31,16 @@ function execute(url) {
             });
         });
 
+        let suggestHtml = doc.select("section.p-3:has(h2.text-2xl)").first().html();
+        let suggests = [];
+        if (suggestHtml) {
+            suggests.push({
+                title: "相关小说",
+                input: suggestHtml,
+                script: "similar.js"
+            });
+        }
+
         return Response.success({
             name: name,
             cover: cover,
@@ -39,13 +49,7 @@ function execute(url) {
             host: BASE_URL,
             ongoing: ongoing,
             genres: genres,
-            suggests: [
-                {
-                    title: "相关小说",
-                    input: doc.select("section:has(h2)").last().html(),
-                    script: "similar.js"
-                }
-            ]
+            suggests: suggests
         });
     }
     return null;
