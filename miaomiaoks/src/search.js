@@ -1,5 +1,4 @@
 // search.js
-// key: từ khóa tìm kiếm
 // Search URL: https://www.miaomiaoks.com/search/?keyword={key}
 function execute(key, page) {
   var url = "https://www.miaomiaoks.com/search/?keyword=" + encodeURIComponent(key);

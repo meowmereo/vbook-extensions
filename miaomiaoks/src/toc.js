@@ -1,6 +1,5 @@
 // toc.js
 // url: https://www.miaomiaoks.com/read/{id}/
-// Tất cả chapter đều nằm trên 1 trang detail, không cần phân trang
 function execute(url) {
   var doc = fetch(url).html();
 

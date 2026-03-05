@@ -8,10 +8,12 @@
     "description": "喵喵看书 - 免费小说在线阅读",
     "locale": "zh_CN",
     "tag": "nsfw",
-	"language": "javascript",
+    "language": "javascript",
     "type": "chinese_novel"
   },
   "script": {
+    "home": "home.js",
+    "genre": "genre.js",
     "detail": "detail.js",
     "toc": "toc.js",
     "chap": "chap.js",
