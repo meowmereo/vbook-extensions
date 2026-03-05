@@ -9,7 +9,6 @@ function execute(url, page) {
 
     var list = [];
 
-    // Dạng list ngang (flex items-center space-x-4)
     doc.select("div.flex.items-center.space-x-4").forEach(function(e) {
         var nameEl = e.select("p.text-lg a").first();
         var cover = e.select("img").attr("src");
@@ -26,7 +25,6 @@ function execute(url, page) {
         }
     });
 
-    // Dạng grid
     if (list.length === 0) {
         doc.select("div.grid > div").forEach(function(e) {
             var link = e.select("a[href*='/read/']").first().attr("href");
@@ -39,7 +37,6 @@ function execute(url, page) {
         });
     }
 
-    // Next page
     var next = null;
     var nextEl = doc.select("a[href*='page=']").last();
     if (nextEl && nextEl.text().indexOf("下一页") >= 0) {
